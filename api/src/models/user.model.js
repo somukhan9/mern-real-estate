@@ -29,13 +29,13 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
-userSchema.pre('save', function () {
-  const salt = bcrypt.genSaltSync(20)
-  this.password = bcrypt.hashSync(this.password, salt)
+userSchema.pre('save', async function () {
+  const salt = await bcrypt.genSalt(20)
+  this.password = await bcrypt.hash(this.password, salt)
 })
 
-userSchema.methods.isPasswordMatched = function (password) {
-  return bcrypt.compareSync(password, this.password)
+userSchema.methods.comparePassword = function (password) {
+  return bcrypt.compare(password, this.password)
 }
 
 userSchema.methods.generateAccessToken = function () {
