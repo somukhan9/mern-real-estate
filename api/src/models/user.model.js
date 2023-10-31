@@ -39,8 +39,12 @@ userSchema.methods.isPasswordMatched = function (password) {
 }
 
 userSchema.methods.generateAccessToken = function () {
-  const token = jwt.sign(this._id, process.env.JWT_SECRET, { expiresIn: '2d' })
+  const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: '1d',
+  })
   return token
 }
 
-export default mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema)
+
+export default User
