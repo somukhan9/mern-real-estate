@@ -2,7 +2,7 @@ const sendAccessToken = (res, user, statusCode) => {
   const token = user.generateAccessToken()
   // user = user.select('-password')
 
-  delete user['password']
+  const { password, ...userInfo } = user._doc
 
   res
     .cookie('access-token', token, {
@@ -13,7 +13,7 @@ const sendAccessToken = (res, user, statusCode) => {
       ),
     })
     .status(statusCode)
-    .json({ success: true, token, user })
+    .json({ success: true, token, user: userInfo })
 }
 
 export default sendAccessToken
