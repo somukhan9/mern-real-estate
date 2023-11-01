@@ -1,4 +1,5 @@
 import httpStatus from 'http-status'
+import bcrypt from 'bcryptjs'
 
 import { asyncWrapper } from '../errors/async-wrapper.js'
 import User from '../models/user.model.js'
@@ -28,9 +29,10 @@ export const signin = asyncWrapper(async (req, res, next) => {
     )
   }
 
-  const isPasswordMatched = await user.comparePassword(password)
+  // const comparePassword = await user.comparePassword(password)
+  const comparePassword = await bcrypt.compare(password, user.password)
 
-  if (!isPasswordMatched) {
+  if (!comparePassword) {
     return next(
       createCustomError(httpStatus.BAD_REQUEST, 'Invalid credentials!')
     )
