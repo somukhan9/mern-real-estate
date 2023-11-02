@@ -41,7 +41,7 @@ userSchema.methods.comparePassword = function (password) {
 
 userSchema.methods.generateAccessToken = function () {
   const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-    expiresIn: '1d',
+    expiresIn: process.env.JWT_EXPIRE,
   })
   return token
 }
