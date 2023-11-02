@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const SignUp = () => {
+  const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [formData, setFormData] = useState({
@@ -56,6 +57,7 @@ const SignUp = () => {
         password: '',
         confirmPassword: '',
       })
+      navigate('/')
     } catch (error) {
       setError(error.message)
       setLoading(false)
