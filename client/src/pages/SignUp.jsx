@@ -47,8 +47,6 @@ const SignUp = () => {
         return
       }
 
-      // console.log(data)
-
       setLoading(false)
       setError('')
       setFormData({

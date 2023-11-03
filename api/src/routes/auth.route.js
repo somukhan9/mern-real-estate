@@ -13,6 +13,6 @@ const router = Router()
 router.post('/signup', signup)
 router.post('/signin', signin)
 router.get('/signout', signout)
-router.get('/get-user-details/:id', isAuthenticated, getUserDetails)
+router.get('/get-user-details', isAuthenticated, getUserDetails)
 
 export default router

@@ -8,9 +8,8 @@ const isAuthenticated = asyncWrapper(async (req, res, next) => {
   const accessToken = req.cookies['access-token']
 
   if (!accessToken) {
-    return createCustomError(
-      httpStatus.UNAUTHORIZED,
-      'Invalid token! Try again.'
+    return next(
+      createCustomError(httpStatus.UNAUTHORIZED, 'Invalid token! Try again.')
     )
   }
 

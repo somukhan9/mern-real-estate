@@ -1,10 +1,15 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../context/auth/auth-context'
+import {
+  SIGN_IN_FAILURE,
+  SIGN_IN_START,
+  SIGN_IN_SUCCESS,
+} from '../reducer/actions/action-types'
 
 const SignIn = () => {
   const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const { state, dispatch } = useAuthContext()
   const [formData, setFormData] = useState({
     emailOrUsername: '',
     password: '',
@@ -19,13 +24,12 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLoading(true)
-
-    console.log(formData)
+    dispatch({ type: SIGN_IN_START })
 
     try {
       const res = await fetch('/api/v1/auth/signin', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -34,23 +38,19 @@ const SignIn = () => {
       const data = await res.json()
 
       if (data.success === false) {
-        setError(data.message)
-        setLoading(false)
+        dispatch({ type: SIGN_IN_FAILURE, payload: data.message })
         return
       }
 
-      // console.log(data)
-
-      setLoading(false)
-      setError('')
+      dispatch({ type: SIGN_IN_SUCCESS, payload: data.user })
+      // localStorage.setItem('user', JSON.stringify(data.user))
       setFormData({
         emailOrUsername: '',
         password: '',
       })
       navigate('/')
     } catch (error) {
-      setError(error.message)
-      setLoading(false)
+      dispatch({ type: SIGN_IN_FAILURE, payload: error.message })
       console.log(error)
     }
   }
@@ -80,10 +80,10 @@ const SignIn = () => {
           required
         />
         <button
-          disabled={loading}
+          disabled={state.loading}
           className="bg-slate-700 text-white p-3 hover:opacity-95 rounded-lg uppercase disabled:opacity-80"
         >
-          {loading ? 'Loading...' : 'sign in'}
+          {state.loading ? 'Loading...' : 'sign in'}
         </button>
       </form>
       <div className="flex gap-2 mt-5">
@@ -92,7 +92,7 @@ const SignIn = () => {
           <span className="text-blue-500">Sign Up</span>
         </Link>
       </div>
-      {error && <p className="text-red-500 mt-5">{error}</p>}
+      {state.error && <p className="text-red-500 mt-5">{state.error}</p>}
     </section>
   )
 }

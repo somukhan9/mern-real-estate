@@ -57,5 +57,10 @@ export const signout = asyncWrapper((req, res) => {
 export const getUserDetails = asyncWrapper(async (req, res, next) => {
   const { userId } = req
   const user = await User.findById(userId).select('-password')
+
+  if (!user) {
+    return next(createCustomError(httpStatus.NOT_FOUND, 'User not found!'))
+  }
+
   res.status(httpStatus.OK).json({ success: true, user })
 })
