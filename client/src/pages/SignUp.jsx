@@ -1,10 +1,18 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../context/auth/auth-context'
+import {
+  SIGN_UP_FAILURE,
+  SIGN_UP_START,
+  SIGN_UP_SUCCESS,
+} from '../reducer/actions/action-types'
 
 const SignUp = () => {
   const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const {
+    state: { loading, error },
+    dispatch,
+  } = useAuthContext()
   const [formData, setFormData] = useState({
     name: '',
     username: '',
@@ -22,11 +30,10 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLoading(true)
+    dispatch({ type: SIGN_UP_START })
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Password did not match!')
-      setLoading(false)
+      dispatch({ type: SIGN_UP_FAILURE, payload: 'Password did not matched!' })
       return
     }
 
@@ -42,13 +49,11 @@ const SignUp = () => {
       const data = await res.json()
 
       if (data.success === false) {
-        setError(data.message)
-        setLoading(false)
+        dispatch({ type: SIGN_UP_FAILURE, payload: data.message })
         return
       }
 
-      setLoading(false)
-      setError('')
+      dispatch({ type: SIGN_UP_SUCCESS, payload: data.user })
       setFormData({
         name: '',
         username: '',
@@ -58,8 +63,8 @@ const SignUp = () => {
       })
       navigate('/')
     } catch (error) {
-      setError(error.message)
-      setLoading(false)
+      dispatch({ type: SIGN_UP_FAILURE, payload: error.message })
+
       console.log(error.message)
     }
   }

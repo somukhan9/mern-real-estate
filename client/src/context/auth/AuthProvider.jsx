@@ -42,7 +42,8 @@ const AuthProvider = ({ children }) => {
       () => {
         fetchUserDetails()
       },
-      1 * 60 * 60 * 1000
+      // 1 * 60 * 60 * 1000
+      5 * 60 * 1000 // run in every five minutes
     )
 
     return () => clearInterval(interval)

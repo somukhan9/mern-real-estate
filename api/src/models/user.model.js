@@ -25,6 +25,11 @@ const userSchema = new mongoose.Schema(
       required: [true, 'Please provide a strong password'],
       minLength: [6, 'Password should be at least 6 characters'],
     },
+    avatar: {
+      type: String,
+      default:
+        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+    },
   },
   { timestamps: true }
 )
