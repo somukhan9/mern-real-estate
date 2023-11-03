@@ -1,5 +1,6 @@
 import {
-  FETCH_USER_DETAILS,
+  FETCH_USER_DETAILS_FAILURE,
+  FETCH_USER_DETAILS_SUCCESS,
   SIGN_IN_FAILURE,
   SIGN_IN_START,
   SIGN_IN_SUCCESS,
@@ -15,6 +16,7 @@ const authReducer = (state, action) => {
       }
 
     case SIGN_IN_SUCCESS:
+      localStorage.setItem('user', JSON.stringify(action.payload))
       return {
         ...state,
         user: action.payload,
@@ -30,10 +32,16 @@ const authReducer = (state, action) => {
         error: action.payload,
       }
 
-    case FETCH_USER_DETAILS:
+    case FETCH_USER_DETAILS_SUCCESS:
       return {
         ...state,
         user: action.payload,
+      }
+
+    case FETCH_USER_DETAILS_FAILURE:
+      return {
+        ...state,
+        user: null,
       }
 
     default:

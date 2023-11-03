@@ -1,7 +1,12 @@
 import { Link } from 'react-router-dom'
 import { FaSearch } from 'react-icons/fa'
+import { useAuthContext } from '../context/auth/auth-context'
 
 const Header = () => {
+  const {
+    state: { user },
+  } = useAuthContext()
+
   const handleSearch = (e) => {
     e.preventDefault()
   }
@@ -38,12 +43,15 @@ const Header = () => {
               About
             </li>
           </Link>
-          <Link to="/sign-in">
-            <li className=" text-slate-700 hover:underline">Sign in</li>
-          </Link>
-          <Link to="/profile">
-            <li className=" text-slate-700 hover:underline">Profile</li>
-          </Link>
+          {user ? (
+            <Link to="/profile">
+              <li className=" text-slate-700 hover:underline">Profile</li>
+            </Link>
+          ) : (
+            <Link to="/sign-in">
+              <li className=" text-slate-700 hover:underline">Sign in</li>
+            </Link>
+          )}
         </ul>
       </div>
     </header>

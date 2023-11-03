@@ -8,7 +8,9 @@ const sendAccessToken = (res, user, statusCode) => {
     .cookie('access-token', token, {
       httpOnly: true,
       secure: true,
-      expires: new Date(Date.now() + 30 * 1000),
+      expires: new Date(
+        Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000
+      ),
     })
     .status(statusCode)
     .json({ success: true, token, user: userInfo })

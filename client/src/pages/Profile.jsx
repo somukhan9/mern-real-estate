@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { useAuthContext } from '../context/auth/auth-context'
-import { FETCH_USER_DETAILS } from '../reducer/actions/action-types'
 
 const Profile = () => {
   const { state, dispatch } = useAuthContext()
