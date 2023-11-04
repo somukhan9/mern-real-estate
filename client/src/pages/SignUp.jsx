@@ -6,6 +6,7 @@ import {
   SIGN_UP_START,
   SIGN_UP_SUCCESS,
 } from '../reducer/actions/action-types'
+import OAuth from '../components/OAuth'
 
 const SignUp = () => {
   const navigate = useNavigate()
@@ -130,6 +131,7 @@ const SignUp = () => {
         >
           {loading ? 'loading...' : 'sign up'}
         </button>
+        <OAuth btnText="continue with google" />
       </form>
       <div className="flex gap-2 mt-5">
         <p>Have an account?</p>
