@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useAuthContext } from '../context/auth/auth-context'
 
 const Profile = () => {
-  const imgRef = useRef()
+  const imgRef = useRef(null)
+  const [imageFile, setImageFile] = useState()
   const [formData, setFormData] = useState({
     name: '',
     username: '',
@@ -15,12 +16,31 @@ const Profile = () => {
     state: { user },
     dispatch,
   } = useAuthContext()
+
+  const handleChange = (e) => {
+    setFormData((prevData) => ({ ...prevData, [e.target.id]: e.target.value }))
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+  }
+
+  useEffect(() => {
+    setFormData({ ...formData, user })
+  }, [])
+
   console.log(user)
   return (
     <section className="max-w-lg p-3 mx-auto">
       <h1 className="text-3xl text-center font-semibold my-7">Profile</h1>
-      <form className="flex flex-col gap-4">
-        <input ref={imgRef} type="file" hidden id="profileImage" />
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <input
+          onChange={(e) => setImageFile(e.target.files[0])}
+          ref={imgRef}
+          type="file"
+          accept="image/*"
+          hidden
+        />
         <img
           src={formData.avatar || user.avatar}
           alt="Profile Picture"
@@ -30,24 +50,33 @@ const Profile = () => {
         <input
           type="text"
           id="name"
-          defaultValue={user.name}
+          // defaultValue={user.name}
+          value={formData.name}
+          onChange={handleChange}
           className="border p-3 rounded-lg focus:outline-none"
         />
         <input
           type="text"
           id="username"
-          defaultValue={user.username}
+          // defaultValue={user.username}
+          value={formData.username}
+          onChange={handleChange}
           className="border p-3 rounded-lg focus:outline-none"
         />
         <input
           type="email"
           id="email"
-          defaultValue={user.email}
+          // defaultValue={user.email}
+          value={formData.email}
+          onChange={handleChange}
           className="border p-3 rounded-lg focus:outline-none"
         />
         <input
           type="password"
           id="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
           className="border p-3 rounded-lg focus:outline-none"
         />
         <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
