@@ -1,8 +1,8 @@
 import express from 'express'
 import cookieParser from 'cookie-parser'
 
-import authRouter from './src/routes/auth.route.js'
-import errorHandlerMiddleware from './src/middlewares/error.js'
+import authRouter from './src/routes/auth.route'
+import errorHandlerMiddleware from './src/middlewares/error'
 
 const app = express()
 

@@ -1,10 +1,10 @@
 import httpStatus from 'http-status'
 import bcrypt from 'bcryptjs'
 
-import User from '../models/user.model.js'
-import sendAccessToken from '../utils/send-access-token.js'
-import { asyncWrapper } from '../errors/async-wrapper.js'
-import { createCustomError } from '../errors/custom-error.js'
+import User from '../models/user.model'
+import sendAccessToken from '../utils/send-access-token'
+import { asyncWrapper } from '../errors/async-wrapper'
+import { createCustomError } from '../errors/custom-error'
 
 export const signup = asyncWrapper(async (req, res, next) => {
   const { name, username, email, password } = req.body

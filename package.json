@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "start": "node api/server.js",
-    "devStart": "nodemon api/server.js"
+    "devStart": "nodemon api/server.js",
+    "dev": "nodemon --experimental-specifier-resolution=node api/server.js",
+    "devExp": "nodemon --experimental-modules --es-module-specifier-resolution=node api/server.js"
   },
   "keywords": [],
   "author": "",
@@ -20,5 +22,8 @@
     "http-status": "^1.7.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.6.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
   }
 }
