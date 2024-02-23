@@ -26,8 +26,12 @@ const Profile = () => {
   }
 
   useEffect(() => {
+<<<<<<< HEAD
     setFormData(user)
     console.log(user)
+=======
+    setFormData({ ...formData, user })
+>>>>>>> b4f088b20f8b5d89c5bdb15a0bd24012e1991912
   }, [])
 
   console.log(user)
